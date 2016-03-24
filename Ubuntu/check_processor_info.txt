@@ -1,0 +1,5 @@
+- display all information about the CPU
+$ cat /proc/cpuinfo
+
+- To count processor (including cores)
+grep -c processor /proc/cpuinfo

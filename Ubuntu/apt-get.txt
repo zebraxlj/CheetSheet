@@ -1,0 +1,2 @@
+- Install specific version
+apt-get install <package name>=<version>
