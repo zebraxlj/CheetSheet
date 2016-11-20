@@ -1,0 +1,7 @@
+This is not a bug. First of all, there's no 'default' user in Fedora, and it would be unreasonable and insecure to expect VirtualBox to manage user groups on a Guest OS.
+
+If you want to add a user to a group in Fedora, do the following:
+
+Open a terminal.
+> sudo usermod -a -G vboxsf <username>
+You may have to reboot to remount the share, the easiest way to do this is probably to reboot the VM.

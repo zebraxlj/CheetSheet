@@ -1,0 +1,30 @@
+Install Xfce in Ubuntu systems using a PPA.
+
+The latest stable version of xfce, At the moment of writing this article it is version 4.12:
+sudo add-apt-repository ppa:xubuntu-dev/xfce-4.10
+sudo add-apt-repository ppa:xubuntu-dev/xfce-4.12
+sudo apt-get update
+sudo apt-get install xfce4
+
+If you already running, want to upgrade it to latest version, issue following commands:
+sudo add-apt-repository ppa:xubuntu-dev/xfce-4.10
+sudo add-apt-repository ppa:xubuntu-dev/xfce-4.12
+sudo apt-get update
+sudo apt-get dist-upgrade
+
+To uninstall and remove the PPA and downgrade, run:
+sudo apt-get install ppa-purge
+sudo ppa-purge ppa:xubuntu-dev/xfce-4.12
+
+plugins:
+== apt-get ==
+xfce4-indicator-plugin
+xfce4-whiskermenu-plugin
+
+themes: (using window manager)
+== window decorations ==
+user's theme directory layout: /home/joe/.themes
+system shared directory layout: ~/.local/share/themes/<theme_name>/xfwm4/
+If the theme contains scalable images (~/.local/share/themes/<theme_name>/xfwm4/*.svg) it's better to install the librsvg package
+
+axe

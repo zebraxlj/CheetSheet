@@ -1,0 +1,47 @@
+Grant root access:
+user@Virtual-box:~# sudo -i
+
+First off we need to see how big the filesystem image is going to 
+need to be. Use the df command to see how much disk you are using.
+
+root@lite:~# df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/hda1               472392     86553    361447  20% /
+
+From this example we can see I'm using 86553 KB, about 85 Mb. 
+I usually create the empty filesystem image in /tmp as I then 
+ignore this directory when copying the files. To create an 
+empty filesystem image use the dd command. Allow a little 
+more space than you are using , so you have room to move. 
+I'm creating a 100,000 KB filesystem image.
+
+root@lite:~# dd if=/dev/zero of=/tmp/lite bs=1k count=100000
+100000+0 records in
+100000+0 records out
+
+You should now have a large empty filesystem image, ready for 
+formatting. What you format it, is up to you. I use ext2, as 
+it's basic, but needs the disk checking turned off, as the 
+image is loaded fresh each boot, so there won't be write errors 
+that need checking for. Because it's only a small filesystem 
+image, we need to use a small block size, so we can have more 
+files. I use a 1k block size.
+
+root@lite:~# mkfs -t ext2 -i 1024 -b 1024 -F /tmp/lite
+
+The -F parameter forces it to format the file, even though it 
+doesn't appear to be a block device. (You can use losetup, 
+instead if you want, and format it when mounted on the loop 
+device).
+Now create a temporary mount point and mount the file using 
+the loopack interface
+
+root@lite:~# mkdir /tmp/loop
+root@lite:~# mount -o loop /tmp/lite /tmp/loop
+
+If you didn't use ext2 as the format, you may need to specify 
+the format when mounting.
+
+Unmount file system:
+
+user@Virtual-box:~# sudo umount <mount_point>

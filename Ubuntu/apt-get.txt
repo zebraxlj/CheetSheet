@@ -1,2 +1,5 @@
 - Install specific version
 apt-get install <package name>=<version>
+
+- Upgrade specific package
+apt-get install --only-upgrade <packagename>
