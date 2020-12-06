@@ -1,0 +1,155 @@
+Beautiful Soup 
+
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
+
+from bs4 import BeautifulSoup
+
+Making the soup
+	pass a string or an open filehandle to the constructor BeautifulSoup
+	Ex. soup = BeautifulSoup("<html>data</html>")
+	Ex. soup = BeautifulSoup(urllib2.urlopen("..."))
+	
+Kinds of objects
+	* Tag
+		>>> soup = BeautifulSoup('<b class="boldest">Extremely bold</b>')
+		>>> tag = soup.b
+		
+		** Name
+			tag.name		# u'b'
+		** Attributes
+			tag['id']		# u'boldest'
+			tag.attrs		# {u'id': 'boldest'}
+		** Multi-valued attributes
+			css_soup = BeautifulSoup('<p class="body strikeout"></p>')
+			css_soup.p['class']			# ["body", "strikeout"]
+	
+	* NavigableString
+	* BeautifulSoup
+	* Comments and other special strings
+
+Navigating the tree
+	* going down
+		using tag names
+		.contents and .children
+		.descendants
+		.string
+		.strings and stripped_strings
+	* going up
+		.parent
+		.parents
+	* Going sideways
+		.next_sibling and .previous_sibling
+		.next_siblings and .previous_siblings
+	* Going back and forth
+		.next_element and .previous_element
+		.next_elements and .previous_elements
+
+Searching the tree
+	* Kinds of filters - for TAG name
+		A string
+			Ex. soup.find_all('b')
+		A regular expression
+			Ex. soup.find_all(re.compile("^b"))
+		A list
+			Ex. soup.find_all(["a", "b"])
+		True
+			Ex. soup.find_all(True)
+		A function
+			Ex. def has_class_but_no_id(tag):
+			        return tag.has_attr('class') and not tag.has_attr('id')
+			    soup.find_all(has_class_but_no_id)
+	
+	* find_all(name, attrs, recursive, string, limit, **kwargs)
+		name argument       - for tag names
+		keyword arguments   - for named attributes
+		attrs, CSS class    - for named attributes
+			'class_' for class attribute, because 'class' is reserved in python
+				Ex. css_soup.find_all("p", class_="strikeout")
+			using a dictionary
+				soup.find_all("a", attrs={"class": "sister"})
+		string argument     - for strings
+			can pass in a string, a regular expression, a list, a function, or the value True
+				Ex. soup.find_all(string="Elsie")
+		limit argument      - control number of results
+				Ex. soup.find_all("a", limit=2)
+		recursive argument  - find childen recursively
+	
+	* Calling a tag is like calling find_all()
+		Ex. soup.find_all("a")
+		    soup("a")
+		Ex. soup.title.find_all(string=True)
+		    soup.title(string=True)
+	
+	* find(name, attrs, recursive, string, **kwargs)
+	
+	* The following function signatures are the same as find() / find_all()
+		find_parent()           |  find_parents()
+		find_next_sibling()     |  find_next_siblings()
+		find_previous_sibling() |  find_previous_siblings()
+		find_next()             |  find_all_next()
+		find_previous()         |  find_all_previous()
+	
+	* CSS selectors
+		
+		
+Modifying the tree
+	Changing tag names and attributes
+	Modifying .string
+	append()
+	NavigableString() and .new_tag()
+	insert()
+	insert_before() and insert_after()
+	clear()
+	extract()
+	decompose()
+	replace_with()
+	wrap()
+	unwrap()
+Output
+	Pretty-printing
+	Non-pretty printing
+	Output formatters
+	get_text()
+Specifying the parser to use
+	Differences between parsers
+Encodings
+	Output encoding
+	Unicode, Dammit
+		Smart quotes
+		Inconsistent encodings
+
+Comparing objects for equality
+	* == : NavigableString or Tag objects are equal when they represent 
+	       the same HTML or XML markup
+	* is : whether two variables refer to exactly the same object
+	
+Copying Beautiful Soup objects
+	* copy.copy() to create a copy of any Tag or NavigableString
+		Ex. import copy
+		    p_copy = copy.copy(soup.p)
+	* The copy: same markup as the original, not the same object:
+		Ex. print soup.p == p_copy      # True
+		    print soup.p is p_copy      # False
+	* The only real difference is that the copy is completely detached 
+	  from the original Beautiful Soup object tree, just as if extract() 
+	  had been called on it:
+		Ex. print p_copy.parent         # None
+
+Parsing only part of a document
+	SoupStrainer
+Troubleshooting
+	diagnose()
+	Errors when parsing a document
+	Version mismatch problems
+	Parsing XML
+	Other parser problems
+	Miscellaneous
+	Improving Performance
+Beautiful Soup 3 - NOT supported anymore [https://www.crummy.com/software/BeautifulSoup/bs4/doc/#id17]
+	Porting code to BS4
+		You need a parser
+		Method names
+		Generators
+		XML
+		Entities
+		Miscellaneous
